@@ -165,12 +165,9 @@ class WARequest(object):
         if proxy_dat is not None:
             conn = httplib.HTTPSConnection(proxy_dat.hostname, proxy_dat.port) if port == 443 else httplib.HTTPConnection(host, port)
             conn.set_tunnel(host, port)
-        else:
-            print 'Proxy server is not specified'
 
         logger.debug("Sending %s request to %s" % (reqType, path))
         conn.request(reqType, path, params, headers);
 
         response = conn.getresponse()
-        print response.status, response.reason
         return response
