@@ -1,6 +1,7 @@
 import urllib,sys, os, logging
 import hashlib
 from .waresponseparser import ResponseParser
+from . import utils
 from yowsup.env import S40YowsupEnv
 CURRENT_ENV = S40YowsupEnv()
 
@@ -66,7 +67,6 @@ class WARequest(object):
         return CURRENT_ENV.getUserAgent()
 
     def send(self, parser = None):
-
         if self.type == "POST":
             return self.sendPostRequest(parser)
 
@@ -149,7 +149,6 @@ class WARequest(object):
 
     @staticmethod
     def sendRequest(host, port, path, headers, params, reqType="GET"):
-
         params = urlencode(params)
 
 
@@ -161,10 +160,17 @@ class WARequest(object):
             logger.debug(params)
 
         logger.debug("Opening connection to %s" % host);
-        conn = httplib.HTTPSConnection(host ,port) if port == 443 else httplib.HTTPConnection(host ,port)
+        conn = httplib.HTTPSConnection(host, port) if port == 443 else httplib.HTTPConnection(host, port)
+        proxy_dat = utils.getFromEnviron()
+        if proxy_dat is not None:
+            conn = httplib.HTTPSConnection(proxy_dat.hostname, proxy_dat.port) if port == 443 else httplib.HTTPConnection(host, port)
+            conn.set_tunnel(host, port)
+        else:
+            print 'Proxy server is not specified'
 
         logger.debug("Sending %s request to %s" % (reqType, path))
         conn.request(reqType, path, params, headers);
 
         response = conn.getresponse()
+        print response.status, response.reason
         return response
