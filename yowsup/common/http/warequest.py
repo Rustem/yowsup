@@ -1,9 +1,12 @@
+import random
 import urllib,sys, os, logging
 import hashlib
 from .waresponseparser import ResponseParser
 from . import utils
-from yowsup.env import S40YowsupEnv
-CURRENT_ENV = S40YowsupEnv()
+from yowsup.env import S40YowsupEnv, AndroidYowsupEnv
+
+def CURRENT_ENV():
+    return random.choice((S40YowsupEnv(), AndroidYowsupEnv()))
 
 if sys.version_info < (3, 0):
     import httplib
@@ -64,7 +67,7 @@ class WARequest(object):
         self.params = []
 
     def getUserAgent(self):
-        return CURRENT_ENV.getUserAgent()
+        return CURRENT_ENV().getUserAgent()
 
     def send(self, parser = None):
         if self.type == "POST":

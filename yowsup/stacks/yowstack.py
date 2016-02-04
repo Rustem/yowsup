@@ -131,7 +131,7 @@ class YowStack(object):
 
         self.setProp(YowNetworkLayer.PROP_ENDPOINT, YowConstants.ENDPOINTS[random.randint(0,len(YowConstants.ENDPOINTS)-1)])
         self.setProp(YowCoderLayer.PROP_DOMAIN, YowConstants.DOMAIN)
-        self.setProp(YowCoderLayer.PROP_RESOURCE, env.CURRENT_ENV.getResource())
+        self.setProp(YowCoderLayer.PROP_RESOURCE, env.CURRENT_ENV().getResource())
         self._construct()
 
 

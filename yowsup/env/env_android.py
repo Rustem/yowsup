@@ -1,7 +1,20 @@
+import random
 from .env import YowsupEnv
 import base64
 import hashlib
 
+
+DEVICES = (
+    "GalaxyS3",
+    "GalaxyS4",
+    "GalaxyS5",
+    "GalaxyS6",
+    "GalaxyS5mini"
+)
+
+OS_VERSIONS = (
+    '4.3', 
+)
 
 class AndroidYowsupEnv(YowsupEnv):
     _SIGNATURE = "MIIDMjCCAvCgAwIBAgIETCU2pDALBgcqhkjOOAQDBQAwfDELMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFDASBgNV" \
@@ -36,7 +49,7 @@ class AndroidYowsupEnv(YowsupEnv):
         return self.__class__._OS_VERSION
 
     def getDeviceName(self):
-        return self.__class__._DEVICE_NAME
+        return random.choice(DEVICES)
 
     def isAxolotlEnabled(self):
         return self.__class__._AXOLOTL

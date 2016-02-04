@@ -1,6 +1,13 @@
+import random
 from .env import YowsupEnv
 import base64
 import hashlib
+
+DEVICES = (
+    "S40",
+    # "S60",
+)
+
 class S40YowsupEnv(YowsupEnv):
     _VERSION = "2.13.30"
     _OS_NAME= "S40"
@@ -19,7 +26,7 @@ class S40YowsupEnv(YowsupEnv):
         return self.__class__._OS_VERSION
 
     def getDeviceName(self):
-        return self.__class__._DEVICE_NAME
+        return random.choice(DEVICES)
 
     def isAxolotlEnabled(self):
         return self.__class__._AXOLOTL

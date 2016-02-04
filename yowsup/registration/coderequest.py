@@ -3,8 +3,11 @@ from yowsup.common.http.waresponseparser import JSONResponseParser
 # from yowsup.env import CURRENT_ENV
 from yowsup.common.tools import StorageTools, WATools
 from yowsup.registration.existsrequest import WAExistsRequest
-from yowsup.env import S40YowsupEnv
-CURRENT_ENV = S40YowsupEnv()
+from yowsup.env import S40YowsupEnv, AndroidYowsupEnv
+import random
+
+def CURRENT_ENV():
+    return random.choice((S40YowsupEnv(), AndroidYowsupEnv()))
 
 class WACodeRequest(WARequest):
 
@@ -24,7 +27,7 @@ class WACodeRequest(WARequest):
         self.addParam("sim_mnc", sim_mnc.zfill(3))
         self.addParam("method", method)
 
-        self.addParam("token", CURRENT_ENV.getToken(p_in))
+        self.addParam("token", CURRENT_ENV().getToken(p_in))
 
         self.url = "v.whatsapp.net/v2/code"
 
